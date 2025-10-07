@@ -14,8 +14,8 @@ OBJ_DIR = obj
 BIN_DIR = bin
 
 # Files
-SRC = $(SRC_DIR)/lsv1.5.0.c
-OBJ = $(OBJ_DIR)/lsv1.5.0.o
+SRC = $(SRC_DIR)/lsv1.6.0.c
+OBJ = $(OBJ_DIR)/lsv1.6.0.o
 TARGET = $(BIN_DIR)/ls
 
 # Default rule
