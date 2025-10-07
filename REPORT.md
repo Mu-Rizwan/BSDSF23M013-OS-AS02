@@ -1,4 +1,4 @@
-Feature 2;
+Feature 2:
 Difference between stat() and lstat()?
 
 stat() follows symbolic links to their targets.
@@ -13,7 +13,7 @@ Example:
 if (S_ISDIR(st.st_mode)) printf("Directory");
 if (st.st_mode & S_IRUSR) printf("Owner can read");
 
-Feature 3;
+Feature 3:
 🧩 1. Logic for “Down then Across” Columnar Printing
 Explain the general logic for printing items in a "down then across" columnar format. Why is
 a simple single loop through the list of filenames insufficient for this task?
@@ -48,10 +48,36 @@ When used with TIOCGWINSZ, it queries the current size of the terminal window.
 Without knowing the terminal width, your program has no way to decide how many filenames can fit on one line, and
 where to wrap to the next line. By using ioctl(), you can adapt the output neatly to any window size, avoid text overflowing or cutting off,make your ls behave like the real Linux ls command
 
-Feature 4;
+Feature 4:
+
 🧩 1. Comparing Implementation Complexity: “Down-Then-Across” vs “Across”
 The “down then across” approach is more complex because it requires computing both the number of rows and columns and translating each linear list index into a 2D row–column position. The horizontal “across” layout can be achieved with a simple single loop and minimal pre-calculation
 
 🧩 2. Strategy for Managing Display Modes (-l, -x, and default)
 
 Implemented an enum display_mode and used getopt() to set it. The main() function then dispatches to do_long_listing() or do_ls_mode() based on the flag.
+
+Feature 5:
+
+🧩 1. Why is it necessary to read all directory entries into memory before sorting them?
+
+Functions like readdir() return directory entries sequentially from the filesystem — one entry at a time, in the order stored on disk (which is not alphabetical and can vary depending on filesystem structure).
+To sort those entries, the program needs access to the entire list of filenames at once.
+
+⚠️ Potential Drawbacks for Very Large Directories
+Drawback	Explanation
+High Memory Usage:	Each filename (string) and the pointer array (char**) consume heap memory. For millions of files, this can easily reach hundreds of MBs or even GBs.
+Performance Overhead:	Copying every name (via strdup()) and sorting them with qsort() (O(n log n)) can become slow for huge directories.
+Possible Memory Fragmentation:	Frequent malloc()/realloc() calls while building the array can fragment heap memory.
+Scalability Limits:	On resource-limited systems, reading millions of entries at once can cause the process to run out of memory or swap heavily.
+
+🧩 2. Purpose and Signature of the qsort() Comparison Function
+qsort() passes pointers to the elements of your array (char **names), so a and b are pointers to pointers (char **).
+
+You cast them back to their actual type:
+const char * const * → pointer to a constant string pointer.You then compare the actual strings (*pa, *pb) using strcmp() or strcasecmp().
+
+🔒 Why const void *?
+
+- The parameters must be void * because qsort() is a generic function that can sort any kind of data (integers, structs, strings, etc.).
+- const ensures that the comparison function doesn’t modify the elements being compared — it’s only supposed to look at them.
