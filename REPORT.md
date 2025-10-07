@@ -32,7 +32,7 @@ a simple single loop through the list of filenames insufficient for this task?
 - The index = c * rows + r formula jumps ahead by rows items to find the next element in that column.
 
 - Once all columns in a row are printed, a newline moves to the next visual row.
-- 
+
 🚫 Why a Single Loop is Insufficient
 If we use simple loops then we can print the desired output but the output will not be dispalyed with respect to the size of terminal window.
 Therefore we use the window size to know the rows and columns of the window in order to print it according to the size of terminal window.
@@ -47,3 +47,11 @@ When used with TIOCGWINSZ, it queries the current size of the terminal window.
 🎯 Why It’s Needed Here
 Without knowing the terminal width, your program has no way to decide how many filenames can fit on one line, and
 where to wrap to the next line. By using ioctl(), you can adapt the output neatly to any window size, avoid text overflowing or cutting off,make your ls behave like the real Linux ls command
+
+Feature 4;
+🧩 1. Comparing Implementation Complexity: “Down-Then-Across” vs “Across”
+The “down then across” approach is more complex because it requires computing both the number of rows and columns and translating each linear list index into a 2D row–column position. The horizontal “across” layout can be achieved with a simple single loop and minimal pre-calculation
+
+🧩 2. Strategy for Managing Display Modes (-l, -x, and default)
+
+Implemented an enum display_mode and used getopt() to set it. The main() function then dispatches to do_long_listing() or do_ls_mode() based on the flag.
