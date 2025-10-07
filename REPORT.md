@@ -100,3 +100,39 @@ ANSI escape codes are special sequences of characters that begin with the escape
 
 - Others (everyone else)
 
+Feature 7:
+🧩 1. What is a Base Case in a Recursive Function?
+🔹 Definition
+
+- A base case is the condition that stops the recursion — it prevents the function from calling itself infinitely.
+
+- In any recursive algorithm:
+
+- The recursive step divides the problem into smaller subproblems.
+
+- The base case defines when the recursion should stop because the problem is already small enough to handle directly.
+
+- Without a base case, the recursion would never end, eventually causing a stack overflow (your program would crash)
+
+🔹 In the Recursive ls Context
+
+In a recursive version of your ls function (for example, do_ls_recursive()), the function calls itself for each subdirectory.
+
+The base case is reached when:
+
+- The current path is not a directory (e.g., it’s a file, symlink, socket, etc.), or
+
+- The directory is empty or cannot be opened (permissions, errors, etc.)
+
+So the base case that stops recursion forever is:
+
+“If the current path is not a directory or cannot be opened, do not recurse further.
+
+📂 2. Why Construct a Full Path Before Recursing?
+🔹 Concept
+
+When you list files inside a directory, readdir() gives you just the entry name
+However, these are relative to the directory you’re currently listing — not absolute paths
+from inside do_ls("parent_dir"), then the function will try to open a directory named "subdir" relative to your current working directory, not relative to "parent_dir".
+
+If your working directory isn’t "parent_dir", this call will fail or open the wrong directory.
