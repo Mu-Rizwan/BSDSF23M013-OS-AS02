@@ -81,3 +81,22 @@ const char * const * → pointer to a constant string pointer.You then compare t
 
 - The parameters must be void * because qsort() is a generic function that can sort any kind of data (integers, structs, strings, etc.).
 - const ensures that the comparison function doesn’t modify the elements being compared — it’s only supposed to look at them.
+
+Feature 6:
+🎨 1. How ANSI Escape Codes Work in Linux Terminals
+🔹 Concept
+
+ANSI escape codes are special sequences of characters that begin with the escape character \033 (or \x1b), followed by a series of parameters and a command letter that tells the terminal to change color, move the cursor, or apply text effects
+
+⚙️ 2. Checking Executable Permission Bits in st_mode
+
+- Each file in Linux has a mode value (from struct stat) containing permission bits and file type bits.
+
+- These permission bits determine whether a file is readable, writable, or executable by:
+
+- The owner (user)
+
+- The group
+
+- Others (everyone else)
+
